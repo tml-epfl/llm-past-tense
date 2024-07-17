@@ -4,7 +4,7 @@
 
 **Paper:** [https://arxiv.org/abs/2407.11969](https://arxiv.org/abs/2407.11969)
 
-<p align="center"><img src="images/paper_first_page.png" width="900" /></p>
+<p align="center"><img src="images/paper_first_page.png" width="700" /></p>
 
 
 ## Getting started
