@@ -32,12 +32,6 @@ class ModelHuggingFace:
             "llama3-8b": "meta-llama/Meta-Llama-3-8B-Instruct",
             "r2d2": "cais/zephyr_7b_r2d2",
         }
-        self.output_offsets = {
-            "phi3": 0,
-            "gemma2-9b": 0,
-            "llama3-8b": 4,
-            "r2d2": 7,
-        }
         self.system_prompts = {
             "phi3": "You are a helpful AI assistant.",
             "gemma2-9b": "",
@@ -53,11 +47,11 @@ class ModelHuggingFace:
         conv = [{"role": "user", "content": prompt}]
         if self.system_prompts[self.model_name] != "":
             conv = [{"role": "system", "content": self.system_prompts[self.model_name]}] + conv
-        prompt_formatted = self.tokenizer.apply_chat_template(conv, tokenize=False)
+        prompt_formatted = self.tokenizer.apply_chat_template(conv, tokenize=False, add_generation_prompt=True)
         inputs = self.tokenizer(prompt_formatted, return_tensors='pt').to(self.device)
 
-        outputs = self.model.generate(**inputs, max_new_tokens=max_n_tokens, temperature=temperature, do_sample=True)
-        outputs_truncated = outputs[0][len(inputs['input_ids'][0]) + self.output_offsets[self.model_name]:]
+        outputs = self.model.generate(input_ids=inputs['input_ids'], max_new_tokens=max_n_tokens, temperature=temperature, do_sample=True)
+        outputs_truncated = outputs[0][len(inputs['input_ids'][0]):]
         response = self.tokenizer.decode(outputs_truncated, skip_special_tokens=True)
 
         return response
