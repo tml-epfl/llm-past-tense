@@ -2,7 +2,7 @@
 
 **Maksym Andriushchenko (EPFL), Nicolas Flammarion (EPFL)**
 
-**Paper:** [https://arxiv.org/abs/](https://arxiv.org/abs/)
+**Paper:** [https://arxiv.org/abs/2407.11969](https://arxiv.org/abs/2407.11969)
 
 <p align="center"><img src="images/paper_first_page.png" width="900" /></p>
 
@@ -34,10 +34,10 @@ python main.py --target_model=r2d2 --n_requests=100 --n_restarts=20
 ## Citation
 If you find this work useful in your own research, please consider citing it: 
 ```bibtex
-@article{andriushchenko2024jailbreaking,
+@article{andriushchenko2024refusal,
       title={Does Refusal Training in LLMs Generalize to the Past Tense?}, 
       author={Andriushchenko, Maksym and Flammarion, Nicolas},
-      journal={arXiv preprint arXiv:},
+      journal={arXiv preprint arXiv:2407.11969},
       year={2024}
 }
 ```
