@@ -24,6 +24,8 @@ Simply run `main.py`! :-) Examples:
 ```bash
 python main.py --target_model=gpt-3.5-turbo --n_requests=100 --n_restarts=20
 python main.py --target_model=gpt-4o-2024-05-13 --n_requests=100 --n_restarts=20 
+python main.py --target_model=gpt-4o-mini --n_requests=100 --n_restarts=20 
+python main.py --target_model=claude-3-5-sonnet-20240620 --n_requests=100 --n_restarts=20 
 python main.py --target_model=phi3 --n_requests=100 --n_restarts=20  
 python main.py --target_model=gemma2-9b --n_requests=100 --n_restarts=20 
 python main.py --target_model=llama3-8b --n_requests=100 --n_restarts=20 

@@ -1,6 +1,7 @@
 import os
 import torch
 import openai
+import anthropic
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
@@ -22,6 +23,24 @@ class ModelGPT:
             seed=0,
         )
         return response.choices[0].message.content
+
+
+class ModelClaude:
+    def __init__(self, model_name):
+        self.model_name = model_name
+        self.client = anthropic.Anthropic()
+
+    def get_response(self, prompt, max_n_tokens, temperature):
+        messages = [
+            {"role": "user", "content": [{"type": "text", "text": prompt}]}
+        ]
+        output = self.client.messages.create(
+            model=self.model_name,
+            max_tokens=max_n_tokens,  
+            temperature=temperature,
+            messages=messages
+        )
+        return output.content[0].text
 
 
 class ModelHuggingFace:

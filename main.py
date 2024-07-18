@@ -8,7 +8,7 @@ import datetime
 import openai
 from dotenv import load_dotenv
 from judges import judge_gpt, judge_llama3, judge_rule_based
-from models import ModelGPT, ModelHuggingFace
+from models import ModelGPT, ModelClaude, ModelHuggingFace
 
 
 def reformulate_past_tense(request):
@@ -73,7 +73,7 @@ load_dotenv()
 client_oai = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 client_together = openai.OpenAI(api_key=os.environ.get("TOGETHER_API_KEY"), base_url="https://api.together.xyz/v1")
 
-model_class = ModelGPT if 'gpt' in args.target_model else ModelHuggingFace
+model_class = ModelGPT if 'gpt' in args.target_model else ModelClaude if 'claude' in args.target_model else ModelHuggingFace
 target_llm = model_class(args.target_model)  
 
 with open("harmful_behaviors_jailbreakbench.csv") as file:
@@ -83,7 +83,6 @@ jb_dict = vars(args)
 jb_dict["jb_artifacts"] = []
 timestamp_start = datetime.datetime.now()
 for i_request, request in enumerate(requests[:args.n_requests]):
-# for i_request, request in enumerate(requests[6:7]):
     print(f">>> Request #{i_request}: {request}")
     for i_restart in range(args.n_restarts):
         if args.attack == "past":
