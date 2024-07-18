@@ -64,8 +64,8 @@ However, do not be constrained by these examples. Feel free to use your creativi
 parser = argparse.ArgumentParser()
 parser.add_argument("--target_model", default="phi3", help="Name of target model.")
 parser.add_argument("--target_max_n_tokens", type=int, default=150, help="Maximum number of generated tokens for the target.")
-parser.add_argument("--n_requests", type=int, default=10, help="Number of requests.")
-parser.add_argument("--n_restarts", type=int, default=5, help="Number of restarts.")
+parser.add_argument("--n_requests", type=int, default=100, help="Number of requests.")
+parser.add_argument("--n_restarts", type=int, default=20, help="Number of restarts.")
 parser.add_argument("--attack", type=str, default="past", help="Attack type", choices=["past", "present", "future"])
 args = parser.parse_args()
 
