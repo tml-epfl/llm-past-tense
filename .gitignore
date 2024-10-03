@@ -1,2 +1,4 @@
 .env
 __pycache__
+experiments_v3.sh
+data_processing.ipynb

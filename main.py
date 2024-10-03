@@ -69,11 +69,12 @@ parser.add_argument("--n_restarts", type=int, default=20, help="Number of restar
 parser.add_argument("--attack", type=str, default="past", help="Attack type", choices=["past", "present", "future"])
 args = parser.parse_args()
 
-load_dotenv()
+load_dotenv(override=True)
 client_oai = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-client_together = openai.OpenAI(api_key=os.environ.get("TOGETHER_API_KEY"), base_url="https://api.together.xyz/v1")
+client_together = openai.OpenAI(api_key=os.getenv("TOGETHER_API_KEY"), base_url="https://api.together.xyz/v1")
+print(os.getenv("TOGETHER_API_KEY"))
 
-model_class = ModelGPT if 'gpt' in args.target_model else ModelClaude if 'claude' in args.target_model else ModelHuggingFace
+model_class = ModelGPT if 'gpt' in args.target_model or 'o1' in args.target_model else ModelClaude if 'claude' in args.target_model else ModelHuggingFace
 target_llm = model_class(args.target_model)  
 
 with open("harmful_behaviors_jailbreakbench.csv") as file:

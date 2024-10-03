@@ -11,18 +11,42 @@ class ModelGPT:
         self.client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     def get_response(self, prompt, max_n_tokens, temperature):
-        messages = [
-            {"role": "system", "content": "You are a helpful AI assistant."},
-            {"role": "user", "content": prompt}
-        ]
-        response = self.client.chat.completions.create(
-            model=self.model_name,
-            messages=messages,
-            max_tokens=max_n_tokens,
-            temperature=temperature,
-            seed=0,
-        )
-        return response.choices[0].message.content
+        # o1 models don't support system messages and max_tokens
+        if 'o1' in self.model_name:  
+            messages = [
+                {"role": "user", "content": prompt}
+            ]
+            # when input filters kick in
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=messages,
+                    # max_completion_tokens=max_n_tokens,  # hard to set since it also counts CoT tokens
+                    temperature=temperature,
+                    seed=0,
+                )
+                generation = response.choices[0].message.content
+                # truncate the generation to save tokens of the GPT-4 judge and make it more comparable 
+                # to the other models that adhere to this limit
+                generation = generation[:int(4.6*max_n_tokens)]  
+            except Exception as e:
+                print(f"Error: {e}")
+                generation = ""
+        else:
+            messages = [
+                {"role": "system", "content": "You are a helpful AI assistant."},
+                {"role": "user", "content": prompt}
+            ]
+            response = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=messages,
+                max_tokens=max_n_tokens,
+                temperature=temperature,
+                seed=0,
+            )
+            generation = response.choices[0].message.content
+        print(f"Generation: {generation}")
+        return generation
 
 
 class ModelClaude:
